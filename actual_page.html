@@ -6,6 +6,7 @@
     <title>minesweeper_mp</title>
     <style>
 
+        
         .grid
         {
 
@@ -24,7 +25,7 @@
             background-color: rgb(148, 90, 255);
 
         }
-
+        
         .sidebar
         {
 
@@ -40,6 +41,8 @@
         .empty_space_vertical
         {
 
+            min-width: 0;
+            min-height: 0;
             grid-column-start: 2;
             grid-column-end: 3;
             grid-row-start: 1;
@@ -51,7 +54,8 @@
 
         .empty_space_horizontal
         {
-
+            min-width: 0;
+            min-height: 0;
             grid-column-start: 3;
             grid-column-end: 4;
             grid-row-start: 1;
@@ -64,6 +68,9 @@
         .tab_space
         {
 
+            resize: none;
+            width: 1536;
+            height: 108px;
             grid-column-start: 3;
             grid-column-end: 4;
             grid-row-start: 2;
@@ -73,8 +80,8 @@
         }
 
         .game_space
-        {
-
+        {   
+            resize: none;
             grid-column-start: 3;
             grid-column-end: 4;
             grid-row-start: 3;
@@ -93,15 +100,34 @@
 
         }
 
+        .open_page_button
+        {
+            
+            text-align: center;
+            font-size: large;
+            background-color: rgb(0, 255, 0);
+            width: 10vw;
+            height: 10vw;
+
+        }
+
         .close_button
         {
-
-            float: right;
             
+            display: grid;
+            align-items: center;
+            text-align: center;
+            font-size: large;
+            margin-bottom: 85%;
+            float: right;
+            background-color: rgb(0, 255, 0);
+            width: 2vw;
+            height: 2vw;
 
         }
     </style>
 
+    <script src="initial_sizing.js" defer></script>
     <script src="add_tab_iframe.js" defer></script>
 
 </head>
@@ -109,7 +135,7 @@
 
     <div class="grid">
 
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
 
             sidebar
 
@@ -134,7 +160,7 @@
 
         </div>
 
-        <div class="game_space">
+        <div class="game_space" id="game">
 
             <button onclick="add_tab()">add tab</button>
 
