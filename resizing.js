@@ -3,8 +3,8 @@ window.onload = initial_sizing;
 function initial_sizing()
 {
     
-    let screen_height = window.screen.availHeight
-    let screen_width = window.screen.availWidth
+    let screen_height = window.screen.availHeight;
+    let screen_width = window.screen.availWidth;
 
     let tab_holder_height = screen_height * 0.1
 
@@ -29,11 +29,11 @@ function initial_sizing()
 
     tab_holder.style.minHeight = tab_holder_height + "px";
     tab_holder.style.minWidth = game_space_width + "px";
-
+    
     let game = document.getElementById("game");
 
     game.style.minHeight = game_height + "px";
-    game.style.minWidth = game_width + "px";
+    game.style.minWidth = game_space_width + "px";
 
     console.log(game_height);
     console.log("worky");
@@ -47,4 +47,5 @@ function initial_sizing()
     let sidebar = document.getElementById("sidebar");
     
     sidebar.style.minWidth = sidebar_width + "px";
+    console.log(sidebar_width)
 }
