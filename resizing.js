@@ -19,6 +19,7 @@ function initial_sizing()
     //let sidebar_height = document.documentElement.clientHeight * 1;
     let sidebar_width = screen_width * 0.2;
 
+    
     let game_space = document.getElementById("game_space");
 
     game_space.style.minHeight = game_space_height + "px";
