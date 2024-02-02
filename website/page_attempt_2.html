@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>please goid</title>
+
+    <script src="constants.js" defer></script>
     <script src="add_tab_iframe.js" defer></script>
     <script src="resizing.js" defer></script>
-
+    <script src="for_testing_stuff.js"></script>
     <style>
 
         .tab
          {
 
-            width: 10vw;
-            height: 10vw;
+            position: relative;
+
+            width: 10%;
+            height: 10%;
             float: left;
 
         }
 
         .open_page_button
         {
-            
-            text-align: center;
+
+            display: flex;
+            align-items: center;
+
+            overflow-wrap: break-word;
             font-size: large;
             background-color: rgb(0, 255, 0);
-            width: 10vw;
-            height: 10vw;
+            width: 10%;
+            height: 10%;
 
         }
 
         .close_button
         {
+            top: 0;
+            right: 0;
+            position: absolute;
             
             display: grid;
             align-items: center;
@@ -38,9 +51,9 @@
             font-size: large;
             margin-bottom: 85%;
             float: right;
-            background-color: rgb(0, 255, 0);
-            width: 2vw;
-            height: 2vw;
+            background-color: rgb(0, 255, 255);
+            width: 2%;
+            height: 2%;
 
         }
 
@@ -75,6 +88,7 @@
             bottom: 0;
             right: 0;
             background-color: rgb(255, 0, 255);
+
         }
 
         .empty_space
@@ -86,6 +100,19 @@
             min-width: 0;
             min-height:0;
             background-color: rgb(0, 255, 255);
+
+        }
+
+        .game_iframe
+        {
+
+            position:fixed;
+            padding:0;
+            margin:0;
+
+            float: right;
+            bottom: 0;
+            right: 0;
 
         }
 
@@ -106,22 +133,57 @@
 
     </style>
 
+    <style>
+
+        .top_sidebar{
+
+            grid-area: sidebar;
+
+        }
+
+        .bottom_game_space{
+
+
+            grid-area: game_space;
+
+        }
+
+        .grid_mode{
+
+
+            display: grid;
+            grid-template-areas:
+            "sidebar"
+            "game_space"
+            "game_space"
+            "game_space"
+
+        }
+          
+    </style>
 </head>
 <body>
+    <div id="whole_page">
+        
 
-    <div id="sidebar">
+        <div id="sidebar">
 
-        <div>content</div>
+            <div>content</div>
+
+        </div>
+
+
+        <div id="game_space"> 
+
+            <div id="tab_holder"></div>
+            <div id="game">
+
+                <button onclick="add_tab()">add tab</button>
+
+            </div>
+
+        </div>
 
     </div>
-
-
-    <div id="game_space"> 
-
-        <div id="tab_holder">tab_holder</div>
-        <div id="game">game</div>
-
-    </div>
-    
 </body>
 </html>
