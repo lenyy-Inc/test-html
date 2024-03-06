@@ -13,11 +13,44 @@ function initial_sizing()
 
     initial_sidebar_width = screen_width * 0.2;
 
+    game_space.style.minWidth = initial_game_space_width/2
+    game_space.style.minHeight = initial_game_space_height/2
+
+    sidebar.style.minHeight = initial_sidebar_width
+    sidebar.style.minWidth = initial_sidebar_width
+
+    tab_holder.style.minHeight = initial_game_space_width/2 * tab_holder_height_ratio;
+    tab_holder.style.minWidth = initial_game_space_width/2;
+
     set_game_space_to_default()
 
     sidebar.style.width = initial_sidebar_width + "px";
 
     console.log("initial sizing finished");
+
+    resize_after_loading();
+
+}
+
+function resize_tabs()
+{
+
+    if (tab_container.length > 7)
+    {
+
+        let new_tab_width = tab_holder.getBoundingClientRect().width / tab_container.length;
+
+        for (let i in tab_container) /*(let i = 0; i < tab_container.length; i++)*/
+        {
+    
+            tab_container[i].style.width = new_tab_width + "px";
+    
+        };
+
+    }
+
+    console.log("resized")
+
 }
 
 function resize_game_area(width, height)
@@ -32,9 +65,9 @@ function resize_game_area(width, height)
     game_space_width = game_space.getBoundingClientRect().width;
     game_space_height = game_space.getBoundingClientRect().height;
 
-    game_height = game_space_height * 0.9;
-
     tab_holder_height = game_space_height * tab_holder_height_ratio;
+
+    game_height = game_space_height - tab_holder_height;
 
     tab_width = game_space_width * tab_holder_height_ratio;
     tab_height = game_space_height * tab_holder_height_ratio;
@@ -57,21 +90,21 @@ function resize_game_area(width, height)
 
     let close_button
     let open_page_button
-    let game_iframe
+    let iframe_holder
 
     for (let i in tab_container)
     {
 
         tab = tab_container[i]
-        close_button = tab_container[i].getElementsByClassName("close_button")[i]
-        open_page_button = tab_container[i].getElementsByClassName("open_page_button")[i]
-        game_iframe = tab_container[i].getElementsByClassName("game_iframe")[i]
-
-        game_iframe.style.height = game_height + "px";
-        game_iframe.style.width = game_space_width + "px";
+        close_button = tab_container[i].getElementsByClassName("close_button")[0]
+        open_page_button = tab_container[i].getElementsByClassName("open_page_button")[0]
+        iframe_holder = tab_container[i].getElementsByClassName("iframe_holder")[0]
 
         tab.style.height = tab_height + "px";
         tab.style.width = tab_width + "px";
+
+        iframe_holder.style.height = game_height + "px";
+        iframe_holder.style.width = game_space_width + "px";
 
         close_button.style.height = close_height + "px";
         close_button.style.width = close_width + "px";
@@ -79,6 +112,8 @@ function resize_game_area(width, height)
         open_page_button.style.height = tab_height + "px";
         open_page_button.style.width = tab_width + "px";
     }
+
+    resize_tabs()
 
     console.log("makes it to the end fo the function")
 
@@ -101,6 +136,7 @@ function resize_after_loading()
 
     let page_too_narrow = window.matchMedia("(max-width: " + (initial_game_space_width + initial_sidebar_width) + "px)");
 
+    //default case listen im working on it
     set_game_space_to_default()
     sidebar.style.width = initial_sidebar_width + "px";
     sidebar.style.height = "100%";
