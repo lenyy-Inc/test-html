@@ -21,6 +21,8 @@ var sidebar = document.getElementById("sidebar");
 
 //globals
 
+var username = "test";
+
 var game_space_height;
 var game_space_width;
 

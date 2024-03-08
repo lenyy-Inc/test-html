@@ -1,10 +1,32 @@
 window.onload = iframe_test;
 var mine_number
 
+function parse_query_string()
+{
+    console.log("parsing started")
+
+    var params = location.href.split('?')[1].split('&');
+    var data = {};
+    for (x in params)
+    {
+        data[params[x].split('=')[0]] = params[x].split('=')[1];
+    }
+
+    console.log("string parsed")
+    return data
+}
+
 function iframe_test()
 {
 
-    let mine_number = document.getElementById("mine_number")
-    let username = document.getElementById("username")
+    var data = parse_query_string()
+
+    var mode = document.getElementById("mode")
+    var username = document.getElementById("username")
+
+    username.innerHTML = data["username"]
+    mode.innerHTML = data["game_mode"]
+
+    console.log("change attempted")
 
 }

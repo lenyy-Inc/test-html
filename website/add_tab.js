@@ -35,7 +35,7 @@ function add_tab(grid_height, grid_width, mine_number, username)
 
 }
 
-function add_tab_iframe()
+function add_tab_iframe(mode)
 {
 
     add_tab()
@@ -54,13 +54,12 @@ function add_tab_iframe()
 
     let game_iframe = document.createElement("iframe")
     game_iframe.setAttribute("class","game_iframe");
-    game_iframe.src = "game_files/iframe_test.html"
+    game_iframe.src = "game_files/iframe_test.html?username=" + username + "&game_mode=" + mode
 
     latest_added_tab.appendChild(iframe_holder);
     iframe_holder.appendChild(game_iframe);
 
     console.log("here")
-
 
 }
 
@@ -83,7 +82,7 @@ function redeclare_indexes()
     {
 
         let close_button = tab_container[i].getElementsByClassName("close_button")[0];
-        close_button.onclick = function () { close_tab(0); };
+        close_button.onclick = function () { close_tab(i); };
 
 
     };
@@ -98,7 +97,7 @@ function resize_tabs()
 
         let new_tab_width = tab_holder.getBoundingClientRect().width / tab_container.length;
 
-        for (let i in tab_container) /*(let i = 0; i < tab_container.length; i++)*/
+        for (let i in tab_container)
         {
     
             tab_container[i].style.width = new_tab_width + "px";

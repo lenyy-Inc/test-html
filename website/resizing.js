@@ -146,7 +146,7 @@ function resize_after_loading()
 
         resize_game_area("100%", (window.innerHeight - (initial_sidebar_width/2)) + "px")
 
-        sidebar.style.height = sidebar_width + "px";
+        sidebar.style.height = initial_sidebar_width + "px";
         sidebar.style.width = "100%";
 
     }
