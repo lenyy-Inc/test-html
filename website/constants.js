@@ -1,4 +1,5 @@
-//constants
+//constants to be shared between javascript files
+//var is used for global variables shared between script files, so it is used even for constants, though this isn't ideal
 
 var screen_height = window.screen.availHeight;
 var screen_width = window.screen.availWidth;

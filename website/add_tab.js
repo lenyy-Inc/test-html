@@ -4,6 +4,13 @@
 function add_tab(grid_height, grid_width, mine_number, username)
 {
 
+    if (tab_container.length > 49)
+    {
+
+        return
+
+    }
+
     let new_tab_index = tab_container.length 
 
     let new_tab = document.createElement("div");
@@ -19,7 +26,6 @@ function add_tab(grid_height, grid_width, mine_number, username)
     open_page_button.style.width = tab_width + "px";
 
     let close_button = document.createElement("span");
-    console.log("i_value " + tab_container.length)
     close_button.onclick = function () { close_tab(new_tab_index); };
     close_button.setAttribute("class", "close_button");
     close_button.innerHTML= "&times";
@@ -42,15 +48,10 @@ function add_tab_iframe(mode)
 
     let latest_added_tab = tab_container[tab_container.length - 1];
 
-    console.log(latest_added_tab)
-
     let iframe_holder = document.createElement("div");
     iframe_holder.setAttribute("class", "iframe_holder");
     iframe_holder.style.height = game_height + "px";
     iframe_holder.style.width = game_space_width + "px";
-
-    console.log(iframe_holder.style.height)
-    console.log(iframe_holder.style.width)
 
     let game_iframe = document.createElement("iframe")
     game_iframe.setAttribute("class","game_iframe");
@@ -58,8 +59,6 @@ function add_tab_iframe(mode)
 
     latest_added_tab.appendChild(iframe_holder);
     iframe_holder.appendChild(game_iframe);
-
-    console.log("here")
 
 }
 
@@ -97,16 +96,30 @@ function resize_tabs()
 
         let new_tab_width = tab_holder.getBoundingClientRect().width / tab_container.length;
 
-        for (let i in tab_container)
+        for (let i in tab_container) 
         {
+            close_button = tab_container[i].getElementsByClassName("close_button")[0]
+            open_page_button = tab_container[i].getElementsByClassName("open_page_button")[0]
     
             tab_container[i].style.width = new_tab_width + "px";
+            open_page_button.style.width = new_tab_width + "px";
+
+            if (close_button.style.width > new_tab_width)
+            {
+
+                close_button.style.width = new_tab_width + "px";
+
+            }
+            else
+            {
+
+                close_button.style.width = 0.3 * tab_height;
+
+            }
     
         };
 
     }
-
-    console.log("resized")
 
 }
 
@@ -132,15 +145,6 @@ function close_tab(i)
 {
     console.log(i)
     tab_container[i].remove();
-    /*
-    for (let j in tab_container)
-    {
-
-        console.log("iteration" + j)
-        console.log(tab_container[j])
-
-    }
-    */
     tab_container.splice(i, 1);
 
     reorganise_tabs()

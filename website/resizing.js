@@ -6,8 +6,6 @@ window.onresize = resize_after_loading;
 function initial_sizing()
 {
 
-    console.log("initial sizing started")
-
     initial_game_space_width = screen_width * 0.7;
     initial_game_space_height = initial_game_space_width * game_space_width_height_ratio;
 
@@ -26,8 +24,6 @@ function initial_sizing()
 
     sidebar.style.width = initial_sidebar_width + "px";
 
-    console.log("initial sizing finished");
-
     resize_after_loading();
 
 }
@@ -40,28 +36,42 @@ function resize_tabs()
 
         let new_tab_width = tab_holder.getBoundingClientRect().width / tab_container.length;
 
-        for (let i in tab_container) /*(let i = 0; i < tab_container.length; i++)*/
+        for (let i in tab_container) 
         {
+            close_button = tab_container[i].getElementsByClassName("close_button")[0]
+            open_page_button = tab_container[i].getElementsByClassName("open_page_button")[0]
     
             tab_container[i].style.width = new_tab_width + "px";
+            open_page_button.style.width = new_tab_width + "px";
+
+            console.log("got here")
+            if (close_width > new_tab_width)
+            {
+
+                close_button.style.width = new_tab_width + "px";
+                console.log("should have resized close button")
+
+            }
+            else
+            {
+
+                close_button.style.width = close_width + "px";
+
+            }
     
         };
 
     }
-
-    console.log("resized")
 
 }
 
 function resize_game_area(width, height)
 {
 
-    console.log("width " + width)
-    console.log("height " + height)
-
     game_space.style.height = height;
     game_space.style.width = width;
 
+    //converts any given percentages into px, and strips the "px" from them
     game_space_width = game_space.getBoundingClientRect().width;
     game_space_height = game_space.getBoundingClientRect().height;
 
@@ -115,7 +125,7 @@ function resize_game_area(width, height)
 
     resize_tabs()
 
-    console.log("makes it to the end fo the function")
+    console.log("makes it to the end of the resize game function")
 
 }
 
@@ -128,8 +138,6 @@ function set_game_space_to_default()
 
 function resize_after_loading()
 {
-
-    console.log("resizing started")
 
     let game_space = document.getElementById("game_space");
     let sidebar = document.getElementById("sidebar");
@@ -146,20 +154,22 @@ function resize_after_loading()
 
         resize_game_area("100%", (window.innerHeight - (initial_sidebar_width/2)) + "px")
 
-        sidebar.style.height = initial_sidebar_width + "px";
+        sidebar.style.height = initial_sidebar_width/2  + "px";
         sidebar.style.width = "100%";
 
     }
+
+    console.log(sidebar.style.height)
 
     let page_too_tall = window.matchMedia("(max-aspect-ratio: 2/3)")
 
     if (page_too_tall.matches)
     {
 
+        resize_game_area("100%", (window.innerHeight - (initial_sidebar_width/2)) + "px")
 
+        sidebar.style.height = initial_sidebar_width/2  + "px";
+        sidebar.style.width = "100%";
 
     }
-
-    console.log("resizing finished")
-
 }
