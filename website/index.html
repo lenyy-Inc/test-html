@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-in</title>
+
+    <script src="sql-wasm.js"></script>
+    <script src="sign_in.js"></script>
+
+    <style>
+
+        .sign_in_bg{
+
+            border-style: outset;
+            border-width: 0.5vw;
+
+            margin: auto;
+            width: 60vw;
+            height: 60vh;
+
+            margin-top: 20vh;
+
+            background-color: rgb(192, 192, 192);
+
+        }
+
+        .text_edit{
+
+            margin: auto;
+            background-color: rgb(255, 255, 255);
+
+            margin-left: 5vw;
+
+            width: calc(45vw);
+            height: calc(5vh);
+
+            margin-top: 10vh;
+
+            font-size: 4vh;
+
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+
+
+            overscroll-behavior: contain;
+
+        }
+
+
+    </style>
+    <style>
+
+        body {
+
+            word-break: break-all;
+
+            text-wrap: nowrap;
+
+            background-color: rgb(192, 192, 192);
+
+            font-family: 'Courier New', monospace;
+
+        }   
+
+
+    </style>
+</head>
+<body>
+    <div class="sign_in_bg">
+
+        <div contenteditable="true" class="text_edit" id="username_box">
+
+        </div>
+        <div contenteditable="true" class="text_edit" id="password_box">
+
+        </div>
+        <div contenteditable="true" class="text_edit" id="password_confirm_box">
+
+        </div>
+
+        <div id="button_holder">
+
+            <div>
+
+
+
+            </div>
+            <div>
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>

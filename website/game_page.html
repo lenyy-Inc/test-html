@@ -6,12 +6,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>please goid</title>
+    <title>Mineswipper</title>
 
-    <script src="constants.js" defer></script>
-    <script src="add_tab.js" defer></script>
-    <script src="resizing.js" defer></script>
-    <script src="for_testing_stuff.js"></script>
+    <script type="module" src="constants.js"></script>
+    <script type="module" src="add_tab.js"></script>
+    <script type="module" src="resizing.js"></script>
+    <script type="module">import {add_tab_iframe} from "./add_tab.js" 
+    document.getElementById("queue_fast").onclick=function () { add_tab_iframe(0)}
+    document.getElementById("queue_medium").onclick=function () { add_tab_iframe(1)}
+    document.getElementById("queue_long").onclick=function () { add_tab_iframe(2)}
+    
+    
+    </script>
     <style>
 
         .tab
@@ -34,7 +40,6 @@
 
             border-style: outset;
 
-
             display: flex;
             align-items: center;
 
@@ -42,8 +47,13 @@
             font-size: large;
             
             background-color: rgb(192, 192, 192);
-            width: 10%;
-            height: 10%;
+            width: calc(10%);
+            height: calc(10%);
+
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
 
         }
 
@@ -197,8 +207,6 @@
 
             background-color: rgb(192, 192, 192);
 
-            text-overflow: ellipsis;
-
             font-family: 'Courier New', monospace;
         
         }   
@@ -219,11 +227,11 @@
 
             <div>content
 
-                <div id="queue-fast" onclick="add_tab_iframe(0)">Queue Fast</div>
+                <div id="queue_fast">Queue Fast</div>
 
-                <div id="queue-medium" onclick="add_tab_iframe(1)">Queue Medium</div>
+                <div id="queue_medium">Queue Medium</div>
 
-                <div id="queue-long" onclick="add_tab_iframe(2)">Queue Long</div>
+                <div id="queue_long">Queue Long</div>
 
             </div>
 
