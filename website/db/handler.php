@@ -29,42 +29,83 @@ class userDB extends SQLite3
 
 $DB_instance = userDB::get_userDB();
 
-if (1==1)//($_SERVER["REQUEST_METHOD"] == "GET")
+if ($_SERVER["REQUEST_METHOD"] == "GET");
 {
 
-	if (1==1)//($_GET["request_type"] == "signin")
+	if ($_GET["request_type"] == "signin")
 	{
 
-		$username = "guest";//$_GET["username"];
-		//$password = $_GET["password"];
+		$username = $_GET["username"];
+		$password = $_GET["password"];
+		$password_confirm = $_GET["password_confirm"];
+
+		if(($username == null) || ($password == null) || ($password_confirm == null))
+		{
+
+			header("Location: ../index.html?error_message=not_all_fields_filled");
+			exit;
+
+		}
+
+		if(!($password_confirm == $password))
+		{
+
+			header("Location: ../index.html?error_message=password_and_password_confirm_do_ not_match");
+			exit;
+
+		}
 	
-		$select = $DB_instance->prepare("SELECT username, password FROM users WHERE username = :username LIMIT 1");
+		$select = $DB_instance->prepare("SELECT password FROM users WHERE username = :username LIMIT 1");
 		$select->bindvalue(":username", $username);
 	
 	
 		$dbpassword = $select->execute()->fetchArray(SQLITE3_ASSOC);
-	
-		echo json_encode($dbpassword);
+
+		if (!$dbpassword)
+		{
+
+			$insert = $DB_instance->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+
+		}
+		else if($dbpassword["password"] == $password)
+		{
+
+			session_start();
+			$_SESSION["username"] = $username;
+			header("Location: ../game_page.php");
+			exit;
+		}
+
+		header("Location: ../index.html?error_message=incorrect_password");
 	
 	}
-	if (1==1)//($_GET["request_type"] == "search")
+	if ($_GET["request_type"] == "search")
 	{
 
-		$username = "*" . "guest" . "*"; //$_GET["username"];
-		//$password = $_GET["password"];
-		$offset = 0;//$_GET["page"] * 10;
+		$username = "%" . $_GET["username"] . "%"; 
+		$offset = ($_GET["page"] - 1) * 10;
 	
-		$select = $DB_instance->prepare("SELECT username, password FROM users WHERE username LIKE :username LIMIT 1");
+		$select = $DB_instance->prepare("SELECT username FROM users WHERE username LIKE :username LIMIT 10 OFFSET :offset");
 		$select->bindvalue(":username", $username);
-		//$select->bindvalue(":offset", $offset);
+		$select->bindvalue(":offset", $offset);
+		
 
-		echo $select->execute();
-	
-		$dbpassword = $select->execute()->fetchArray(SQLITE3_ASSOC);
+		$fetchedArray = array();
 
-		echo json_encode($dbpassword);
+		$selection = $select->execute();
+
+		while($selected = $selection->fetchArray(SQLITE3_ASSOC))
+		{
+
+			array_push($fetchedArray, $selected);
+
+		}
+
+		echo json_encode($fetchedArray);
 	
 	}
 
 
 }
+
+echo "RAHHHH";

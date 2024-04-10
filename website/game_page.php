@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php session_start(); ?>
 <html lang="en">
 <head>
 
@@ -11,13 +12,21 @@
     <script type="module" src="constants.js"></script>
     <script type="module" src="add_tab.js"></script>
     <script type="module" src="resizing.js"></script>
-    <script type="module">import {add_tab_iframe} from "./add_tab.js" 
-    document.getElementById("queue_fast").onclick=function () { add_tab_iframe(0)}
-    document.getElementById("queue_medium").onclick=function () { add_tab_iframe(1)}
-    document.getElementById("queue_long").onclick=function () { add_tab_iframe(2)}
-    
-    
+    <script type="module" >import {add_tab_iframe} from "./add_tab.js" 
+
+        document.getElementById("queue_fast").onclick=function () { add_tab_iframe(0)};
+        document.getElementById("queue_medium").onclick=function () { add_tab_iframe(1)};
+        document.getElementById("queue_long").onclick=function () { add_tab_iframe(2)};
+
+       
+
     </script>
+    <script type= "text/javascript">
+
+        window.username = "<?php echo $_SESSION['username']; ?>";
+
+    </script>
+
     <style>
 
         .tab
@@ -81,8 +90,86 @@
 
         }
 
+        .queue_button
+        {
+
+            display: grid;
+
+            box-sizing: border-box;
+            border-style: outset;
+
+            float: left;
+
+        }
+
     </style>
     <style>
+
+        .chomo
+        {
+
+            background-color: beige;
+
+        }
+
+        .marginless
+        {
+
+            margin-top: -0.01vh;
+
+            background-color: pink;
+
+            padding: none;
+
+            font-size: small;
+
+            margin: none;
+            width: fit-content;
+            height: fit-content;
+
+            
+        }
+
+        .search_bar
+        {
+
+            
+
+            float: bottom;
+
+            padding: none;
+
+            margin: none;
+
+            background-color: rgb(255, 255, 255);
+
+            font-size: 3.5vh;
+
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+
+            width: calc(70%);
+            height: calc(70%);
+
+            overscroll-behavior: contain;
+
+        }
+
+        #search_section
+        {
+
+            display: grid;
+
+            width: 100px;
+            height: 100px;
+
+            box-sizing: border-box;
+            border-style: outset;
+
+            float: left;
+
+        }
 
         #sidebar
         {
@@ -225,13 +312,25 @@
 
         <div id="sidebar">
 
-            <div>content
+            <div>
 
-                <div id="queue_fast">Queue Fast</div>
+                <div class="queue_button" id="queue_fast">Queue Fast</div>
 
-                <div id="queue_medium">Queue Medium</div>
+                <div class="queue_button" id="queue_medium">Queue Medium</div>
 
-                <div id="queue_long">Queue Long</div>
+                <div class="queue_button" id="queue_long">Queue Long</div>
+
+                <div class="search" id="search_section">
+                    
+
+                    <p class="marginless">Username</p><div contenteditable="true" class="search_bar" id="username_search"></div>
+
+                    <p class="marginless">Elo</p><div contenteditable="true" class="search_bar" id="username_search"></div>
+
+                    <div class="chomo">Search Elo Ascending</div>
+                    <div class="chomo">Search Elo Descending</div>              
+                
+                <div>
 
             </div>
 

@@ -19,10 +19,10 @@ function parse_query_string()
 function iframe_test()
 {
 
-    var data = parse_query_string()
+    window.data = parse_query_string()
 
-    var mode = document.getElementById("mode")
-    var username = document.getElementById("username")
+    window.mode = document.getElementById("mode")
+    window.username = document.getElementById("username")
 
     username.innerHTML = data["username"]
     mode.innerHTML = data["game_mode"]

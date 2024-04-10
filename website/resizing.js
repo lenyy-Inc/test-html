@@ -21,6 +21,13 @@ function initial_sizing()
 
     set_game_space_to_default()
     window.sidebar.style.width = window.initial_sidebar_width + "px";
+    for(let i = 0; i < 3; i++)
+    {
+        console.log(i)
+        console.log(window.sidebar.getElementsByClassName("queue_button")[i])
+        window.sidebar.getElementsByClassName("queue_button")[i].style.width = "100%";
+        window.sidebar.getElementsByClassName("queue_button")[i].style.height= (window.sidebar.getBoundingClientRect().height * 0.1) + "px";
+    }
 
     resize_after_loading();
 
@@ -143,6 +150,28 @@ function resize_after_loading()
     window.sidebar.style.width = window.initial_sidebar_width + "px";
     window.sidebar.style.height = "100%";
 
+    for(let i = 0; i < 3; i++)
+    {
+        console.log(i)
+        console.log(window.sidebar.getElementsByClassName("queue_button")[i])
+        window.sidebar.getElementsByClassName("queue_button")[i].style.width = "100%";
+        window.sidebar.getElementsByClassName("queue_button")[i].style.height= (window.sidebar.getBoundingClientRect().height * 0.1) + "px";
+    }
+
+    document.getElementById("search_section").style.width = "100%";
+    document.getElementById("search_section").style.height = (window.sidebar.getBoundingClientRect().height * 0.68125) + "px";
+
+    for(let i = 0; i < 2; i++)
+    {
+
+        window.sidebar.getElementsByClassName("search_bar")[i].style.width = "calc(70%)"
+        window.sidebar.getElementsByClassName("search_bar")[i].style.height = "calc(50%)"
+        window.sidebar.getElementsByClassName("search_bar")[i].style.marginTop = "-7.5vh"
+        window.sidebar.getElementsByClassName("search_bar")[i].style.fontSize = "3.5vh"
+
+    }
+
+
     if (page_too_narrow.matches)
     {
 
@@ -151,9 +180,28 @@ function resize_after_loading()
         window.sidebar.style.height = window.initial_sidebar_width/2  + "px";
         window.sidebar.style.width = "100%";
 
-    }
+        for(let i = 0; i < 3; i++)
+        {
+            
+            console.log(window.sidebar.getElementsByClassName("queue_button")[i])
+            window.sidebar.getElementsByClassName("queue_button")[i].style.width = (window.sidebar.getBoundingClientRect().width * 0.1) + "px";
+            window.sidebar.getElementsByClassName("queue_button")[i].style.height = (window.sidebar.getBoundingClientRect().height - (document.documentElement.clientHeight * 0.019)) + "px";
 
-    console.log(window.sidebar.style.height)
+        }
+
+        document.getElementById("search_section").style.width = ((window.sidebar.getBoundingClientRect().width * 0.7) - (document.documentElement.clientHeight * 0.019)) + "px";
+        document.getElementById("search_section").style.height = (window.sidebar.getBoundingClientRect().height - (document.documentElement.clientHeight * 0.019)) + "px";
+
+        for(let i = 0; i < 2; i++)
+        {
+
+            window.sidebar.getElementsByClassName("search_bar")[i].style.width = "calc(70%)"
+            window.sidebar.getElementsByClassName("search_bar")[i].style.height = "calc(100%)"
+            window.sidebar.getElementsByClassName("search_bar")[i].style.marginTop = "-10px"
+            window.sidebar.getElementsByClassName("search_bar")[i].style.fontSize = "2.5vh"
+
+        }
+    }
 
     let page_too_tall = window.matchMedia("(max-aspect-ratio: 2/3)")
 

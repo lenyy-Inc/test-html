@@ -22,7 +22,7 @@ window.sidebar = document.getElementById("sidebar");
 
 //globals
 
-window.username = "test";
+//window.username = "test";
 
 window.game_space_height;
 window.game_space_width;

@@ -151,8 +151,6 @@ function open_tab(parent)
     let child_iframe_holder = parent.getElementsByClassName("iframe_holder")[0]
     child_iframe_holder.style.display = "block";
 
-
-
 }
 
 function close_tab(i)
@@ -162,5 +160,5 @@ function close_tab(i)
     window.tab_container.splice(i, 1);
 
     reorganise_tabs()
-
+    
 }
