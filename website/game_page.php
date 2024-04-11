@@ -9,14 +9,17 @@
 
     <title>Mineswipper</title>
 
-    <script type="module" src="constants.js"></script>
-    <script type="module" src="add_tab.js"></script>
-    <script type="module" src="resizing.js"></script>
-    <script type="module" >import {add_tab_iframe} from "./add_tab.js" 
+    <script type="module" src="./constants.js"></script>
+    <script type="module" src="./add_tab.js"></script>
+    <script type="module" src="./resizing.js"></script>
+    <script type="module" src="./httprequests.js"></script>
+    <script type="module" >import {add_tab_iframe} from "./add_tab.js"; import {search_db} from "./httprequests.js" ;
 
         document.getElementById("queue_fast").onclick=function () { add_tab_iframe(0)};
         document.getElementById("queue_medium").onclick=function () { add_tab_iframe(1)};
         document.getElementById("queue_long").onclick=function () { add_tab_iframe(2)};
+
+        document.getElementById("search_desc").onclick=search_db;
 
        
 
@@ -81,7 +84,7 @@
             display: grid;
             align-items: center;
             text-align: center;
-            font-size: large;
+            font-size: 2vh;
             margin-bottom: 85%;
             float: right;
             background-color: rgb(192, 192, 192);
@@ -100,6 +103,8 @@
 
             float: left;
 
+            border-width: 0.5vmin;
+
         }
 
     </style>
@@ -108,7 +113,10 @@
         .chomo
         {
 
-            background-color: beige;
+            box-sizing: border-box;
+
+            border-style: outset;
+            background-color: rgb(192, 192, 192);
 
         }
 
@@ -116,8 +124,6 @@
         {
 
             margin-top: -0.01vh;
-
-            background-color: pink;
 
             padding: none;
 
@@ -166,6 +172,8 @@
 
             box-sizing: border-box;
             border-style: outset;
+
+            border-width: 0.5vmin;
 
             float: left;
 
@@ -325,10 +333,10 @@
 
                     <p class="marginless">Username</p><div contenteditable="true" class="search_bar" id="username_search"></div>
 
-                    <p class="marginless">Elo</p><div contenteditable="true" class="search_bar" id="username_search"></div>
+                    <p class="marginless">Elo</p><div contenteditable="true" class="search_bar" id="elo_search"></div>
 
-                    <div class="chomo">Search Elo Ascending</div>
-                    <div class="chomo">Search Elo Descending</div>              
+                    <div class="chomo" id="search_asc">Search Elo Ascending</div>
+                    <div class="chomo" id="search_desc">Search Elo Descending</div>              
                 
                 <div>
 

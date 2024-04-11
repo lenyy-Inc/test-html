@@ -185,12 +185,13 @@ function resize_after_loading()
             
             console.log(window.sidebar.getElementsByClassName("queue_button")[i])
             window.sidebar.getElementsByClassName("queue_button")[i].style.width = (window.sidebar.getBoundingClientRect().width * 0.1) + "px";
-            window.sidebar.getElementsByClassName("queue_button")[i].style.height = (window.sidebar.getBoundingClientRect().height - (document.documentElement.clientHeight * 0.019)) + "px";
+            window.sidebar.getElementsByClassName("queue_button")[i].style.height = "calc( " + (window.sidebar.getBoundingClientRect().height) + "px - 1.6vmin";
 
         }
 
-        document.getElementById("search_section").style.width = ((window.sidebar.getBoundingClientRect().width * 0.7) - (document.documentElement.clientHeight * 0.019)) + "px";
-        document.getElementById("search_section").style.height = (window.sidebar.getBoundingClientRect().height - (document.documentElement.clientHeight * 0.019)) + "px";
+        document.getElementById("search_section").style.width = "100%";
+        document.getElementById("search_section").style.width = (document.getElementById("search_section").getBoundingClientRect().width - (window.sidebar.getBoundingClientRect().width * 0.3)) + "px";
+        document.getElementById("search_section").style.height = "calc( " + (window.sidebar.getBoundingClientRect().height) + "px - 1.6vmin";
 
         for(let i = 0; i < 2; i++)
         {

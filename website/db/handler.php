@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET");
 		if(!($password_confirm == $password))
 		{
 
-			header("Location: ../index.html?error_message=password_and_password_confirm_do_ not_match");
+			header("Location: ../index.html?error_message=password_and_password_confirm_do_not_match");
 			exit;
 
 		}
@@ -58,13 +58,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET");
 		$select = $DB_instance->prepare("SELECT password FROM users WHERE username = :username LIMIT 1");
 		$select->bindvalue(":username", $username);
 	
-	
 		$dbpassword = $select->execute()->fetchArray(SQLITE3_ASSOC);
 
 		if (!$dbpassword)
 		{
 
-			$insert = $DB_instance->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+			$insert = $DB_instance->prepare("INSERT INTO users (username, password, elo) VALUES (:username, :password, '1000')");
+			$insert->bindvalue(":username", $username);
+			$insert->bindvalue(":password", $password);
+			$insert->execute();
+			header("Location: ../index.html?error_message=added_new_user_please_sign_in");
+			exit;
+
 
 		}
 		else if($dbpassword["password"] == $password)
@@ -82,13 +87,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET");
 	if ($_GET["request_type"] == "search")
 	{
 
+		$elo_order = $_GET["order"];
 		$username = "%" . $_GET["username"] . "%"; 
-		$offset = ($_GET["page"] - 1) * 10;
+		$elo = "%" . $_GET["elo"] . "%"; 
+		$offset = 0;
+		//$offset = ($_GET["page"] - 1) * 10;
 	
-		$select = $DB_instance->prepare("SELECT username FROM users WHERE username LIKE :username LIMIT 10 OFFSET :offset");
+		$select = $DB_instance->prepare("SELECT username FROM users WHERE username LIKE :username  AND elo > :min_elo AND elo < :max_elo  ORDER BY LIMIT 10 OFFSET :offset");
 		$select->bindvalue(":username", $username);
 		$select->bindvalue(":offset", $offset);
-		
+		$select->bindvalue(":min_elo", $elo - 100);
+		$select->bindvalue(":max_elo", $elo + 100);
 
 		$fetchedArray = array();
 
@@ -102,10 +111,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET");
 		}
 
 		echo json_encode($fetchedArray);
-	
+		exit;
 	}
-
 
 }
 
-echo "RAHHHH";
+header("Location: ../index.html?error_message=you_really_fucked_up");
