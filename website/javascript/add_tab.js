@@ -3,7 +3,7 @@
 
 import { resize_tabs } from "./resizing.js";
 
-function add_tab(grid_height, grid_width, mine_number, username)
+function add_tab(tab_name)
 {
 
     if (window.tab_container.length > 49)
@@ -23,7 +23,7 @@ function add_tab(grid_height, grid_width, mine_number, username)
     let open_page_button = document.createElement("div");
     open_page_button.onclick = function () { open_tab(new_tab)};
     open_page_button.setAttribute("class", "open_page_button");
-    open_page_button.innerHTML = "tab_open_page" + (tab_container.length + 1);
+    open_page_button.innerHTML = tab_name;
     open_page_button.style.height = window.tab_height + "px";
     open_page_button.style.width = window.tab_width + "px";
 
@@ -43,10 +43,12 @@ function add_tab(grid_height, grid_width, mine_number, username)
 
 }
 
-export function add_tab_iframe(mode)
+
+
+function add_tab_iframe_holder(tab_name)
 {
 
-    add_tab()
+    add_tab(tab_name)
 
     let latest_added_tab = window.tab_container[window.tab_container.length - 1];
 
@@ -55,12 +57,69 @@ export function add_tab_iframe(mode)
     iframe_holder.style.height = window.game_height + "px";
     iframe_holder.style.width = window.game_space_width + "px";
 
+    latest_added_tab.appendChild(iframe_holder);
+
+}
+
+export function add_tab_search_result_iframe()
+{
+
+    add_tab_iframe_holder("search results:")
+
+    let latest_added_tab = window.tab_container[window.tab_container.length - 1];
+    let iframe_holder = latest_added_tab.getElementsByClassName("iframe_holder")[0]
+
+    let search_result_iframe = document.createElement("iframe")
+    search_result_iframe.setAttribute("class","game_iframe");
+
+    var username_search = document.getElementById("username_search").textContent;
+	var elo_search = document.getElementById("elo_search").textContent;
+
+    search_result_iframe.src = "./search_results_page/results.html?username=" + username_search + "&elo=" + elo_search;
+
+    iframe_holder.appendChild(search_result_iframe);
+
+    open_tab(latest_added_tab)
+
+}
+
+export function add_tab_profile_iframe(data)
+{
+
+    let username = data[0];
+    let elo = data[1];
+
+    add_tab_iframe_holder(username + "'s profile:")
+
+    let latest_added_tab = window.tab_container[window.tab_container.length - 1];
+    let iframe_holder = latest_added_tab.getElementsByClassName("iframe_holder")[0]
+
+    let profile_iframe = document.createElement("iframe")
+    profile_iframe.setAttribute("class","game_iframe");
+
+    profile_iframe.src = "./profile_page/profile.html?username=" + username + "&elo=" + elo;
+
+    iframe_holder.appendChild(profile_iframe);
+
+    open_tab(latest_added_tab)
+
+}
+
+export function add_tab_game_iframe(mode)
+{
+
+    add_tab_iframe_holder("game:")
+
+    let latest_added_tab = window.tab_container[window.tab_container.length - 1];
+    let iframe_holder = latest_added_tab.getElementsByClassName("iframe_holder")[0]
+
     let game_iframe = document.createElement("iframe")
     game_iframe.setAttribute("class","game_iframe");
-    game_iframe.src = "game_files/iframe_test.html?username=" + window.username + "&game_mode=" + mode
+    game_iframe.src = "./game_files/iframe_test.html?username=" + window.username + "&game_mode=" + mode
 
-    latest_added_tab.appendChild(iframe_holder);
     iframe_holder.appendChild(game_iframe);
+
+    open_tab(latest_added_tab)
 
 }
 
@@ -139,17 +198,23 @@ function reorganise_tabs()
 
 function open_tab(parent)
 {
+    var child_iframe_holder = parent.getElementsByClassName("iframe_holder")[0];
+    var already_visible = child_iframe_holder.style.display == "block";
+
 
     for (let i in window.tab_container)
     {
 
         let iframe_holder = tab_container[i].getElementsByClassName("iframe_holder")[0] 
         iframe_holder.style.display = "none";
+        tab_container[i].getElementsByClassName("open_page_button")[0].style.borderStyle = "outset";
 
     }
-
-    let child_iframe_holder = parent.getElementsByClassName("iframe_holder")[0]
-    child_iframe_holder.style.display = "block";
+    if(!already_visible)
+    {
+        child_iframe_holder.style.display = "block";
+        parent.getElementsByClassName("open_page_button")[0].style.borderStyle = "inset";
+    }
 
 }
 

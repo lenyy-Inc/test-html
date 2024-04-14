@@ -9,19 +9,17 @@
 
     <title>Mineswipper</title>
 
-    <script type="module" src="./constants.js"></script>
-    <script type="module" src="./add_tab.js"></script>
-    <script type="module" src="./resizing.js"></script>
-    <script type="module" src="./httprequests.js"></script>
-    <script type="module" >import {add_tab_iframe} from "./add_tab.js"; import {search_db} from "./httprequests.js" ;
+    <script type="module" src="./javascript/constants.js"></script>
+    <script type="module" src="./javascript/add_tab.js"></script>
+    <script type="module" src="./javascript/resizing.js"></script>
+    <script type="module" src="./javascript/httprequests.js"></script>
+    <script type="module" >import {add_tab_game_iframe, add_tab_search_result_iframe, add_tab_profile_iframe} from "./javascript/add_tab.js";
 
-        document.getElementById("queue_fast").onclick=function () { add_tab_iframe(0)};
-        document.getElementById("queue_medium").onclick=function () { add_tab_iframe(1)};
-        document.getElementById("queue_long").onclick=function () { add_tab_iframe(2)};
-
-        document.getElementById("search_desc").onclick=search_db;
-
-       
+        document.getElementById("queue_fast").onclick=function () { add_tab_game_iframe(0)};
+        document.getElementById("queue_medium").onclick=function () { add_tab_game_iframe(1)};
+        document.getElementById("queue_long").onclick=function () { add_tab_game_iframe(2)};
+        document.getElementById("search").onclick=function () {add_tab_search_result_iframe()};
+        window.onmessage=function(e) {add_tab_profile_iframe(e.data)};
 
     </script>
     <script type= "text/javascript">
@@ -67,15 +65,25 @@
             white-space: nowrap;
             text-overflow: ellipsis;
 
+            align-items: center;
+            text-align: center;
+
+            border-width: 0.5vmin;
+
         }
 
         .close_button
         {
+            /*
             border-width: 0.25vmin;
 
             box-sizing: border-box;
 
             border-style: outset;
+
+            background-color: rgb(192, 192, 192);
+            
+            */
 
             top: 0;
             right: 0;
@@ -87,7 +95,7 @@
             font-size: 2vh;
             margin-bottom: 85%;
             float: right;
-            background-color: rgb(192, 192, 192);
+            
             width: 2%;
             height: 2%;
 
@@ -110,10 +118,29 @@
     </style>
     <style>
 
-        .chomo
+        .profile
         {
 
             box-sizing: border-box;
+
+            border-style: outset;
+
+            background-color: rgb(192, 192, 192);
+
+        }
+
+        #search
+        {
+
+            display: grid;
+            align-items: center;
+            text-align: center;
+
+            box-sizing: border-box;
+
+            font-size:xx-large;
+
+            width: 50%;
 
             border-style: outset;
             background-color: rgb(192, 192, 192);
@@ -232,7 +259,11 @@
         .iframe_holder
         {
 
+            border-width: 0.5vmin;
+
             display: flex;
+
+            box-sizing: border-box;
 
             position:fixed;
             padding:0;
@@ -298,7 +329,8 @@
 
     <style>
 
-        body {
+        body 
+        {
 
             background-color: rgb(192, 192, 192);
 
@@ -335,8 +367,7 @@
 
                     <p class="marginless">Elo</p><div contenteditable="true" class="search_bar" id="elo_search"></div>
 
-                    <div class="chomo" id="search_asc">Search Elo Ascending</div>
-                    <div class="chomo" id="search_desc">Search Elo Descending</div>              
+                    <div id="search">Search</div>           
                 
                 <div>
 

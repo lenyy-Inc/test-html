@@ -87,23 +87,116 @@ if ($_SERVER["REQUEST_METHOD"] == "GET");
 	if ($_GET["request_type"] == "search")
 	{
 
-		$elo_order = $_GET["order"];
-		$username = "%" . $_GET["username"] . "%"; 
-		$elo = "%" . $_GET["elo"] . "%"; 
-		$offset = 0;
+		$username = $_GET["username"]; 
+		$elo =  $_GET["elo"]; 
+		$offset = ($_GET["offset"] * 10);
 		//$offset = ($_GET["page"] - 1) * 10;
+
+		if($elo == "")
+		{
+			if($username == "")
+			{
+
+				$select = $DB_instance->prepare(
+					"SELECT username, elo 
+					FROM users 
+					ORDER BY 
+					elo DESC 
+					LIMIT 10 
+					OFFSET :offset"
+					);
+
+			}
+			else
+			{
+
+				$select = $DB_instance->prepare(
+					"SELECT username, elo 
+					FROM users 
+					WHERE username LIKE :username 
+					ORDER BY 
+						CASE 
+							WHEN username LIKE :1username THEN 0
+							WHEN username LIKE :2username THEN 1
+							WHEN username LIKE :3username THEN 2
+							WHEN username LIKE :username THEN 3
+							ELSE 4 
+							END,
+					elo DESC 
+					LIMIT 10 
+					OFFSET :offset"
+					);
+
+					$select->bindvalue(":username", "%" . $username . "%");
+					$select->bindvalue(":1username", $username);
+					$select->bindvalue(":2username", $username. "%");
+					$select->bindvalue(":3username", "%" . $username);
+					
+			}
+
+		}
+		else
+		{
+			
+			if($username == "")
+			{
+
+				$select = $DB_instance->prepare(
+					"SELECT username, elo 
+					FROM users 
+					WHERE elo > :min_elo
+					AND elo < :max_elo
+					ORDER BY 
+					elo DESC 
+					LIMIT 10 
+					OFFSET :offset"
+					);
 	
-		$select = $DB_instance->prepare("SELECT username FROM users WHERE username LIKE :username  AND elo > :min_elo AND elo < :max_elo  ORDER BY LIMIT 10 OFFSET :offset");
-		$select->bindvalue(":username", $username);
+					$select->bindvalue(":min_elo", $elo - 50);
+					$select->bindvalue(":max_elo", $elo + 50);
+
+			}
+			else
+			{
+
+				$select = $DB_instance->prepare(
+					"SELECT username, elo 
+					FROM users 
+					WHERE username LIKE :username 
+					AND elo > :min_elo
+					AND elo < :max_elo
+					ORDER BY 
+						CASE 
+							WHEN username LIKE :1username THEN 0
+							WHEN username LIKE :2username THEN 1
+							WHEN username LIKE :3username THEN 2
+							WHEN username LIKE :username THEN 3
+							ELSE 4 
+							END,
+					elo DESC 
+					LIMIT 10 
+					OFFSET :offset"
+					);
+	
+					$select->bindvalue(":min_elo", $elo - 50);
+					$select->bindvalue(":max_elo", $elo + 50);
+	
+					$select->bindvalue(":username", "%" . $username . "%");
+					$select->bindvalue(":1username", $username);
+					$select->bindvalue(":2username", $username. "%");
+					$select->bindvalue(":3username", "%" . $username);
+
+			}
+		
+		}
+
 		$select->bindvalue(":offset", $offset);
-		$select->bindvalue(":min_elo", $elo - 100);
-		$select->bindvalue(":max_elo", $elo + 100);
 
 		$fetchedArray = array();
 
 		$selection = $select->execute();
 
-		while($selected = $selection->fetchArray(SQLITE3_ASSOC))
+		while($selected = $selection->fetchArray(SQLITE3_NUM))
 		{
 
 			array_push($fetchedArray, $selected);
@@ -112,6 +205,40 @@ if ($_SERVER["REQUEST_METHOD"] == "GET");
 
 		echo json_encode($fetchedArray);
 		exit;
+	}
+	if ($_GET["request_type"] == "get_demos")
+	{
+
+		$username = $_GET["username"]; 
+		$offset = ($_GET["offset"] * 10);
+
+		$select = $DB_instance->prepare(
+			"SELECT player1, player2
+			FROM demos
+			WHERE player1 = :username
+			OR player2 = :username
+			ORDER BY rowid
+			LIMIT 10
+			OFFSET :offset"
+			);
+
+		$select->bindValue(":username", $username);
+		$select->bindValue(":offset", $offset);
+
+		$fetchedArray = array();
+
+		$selection = $select->execute();
+	
+		while($selected = $selection->fetchArray(SQLITE3_NUM))
+		{
+	
+			array_push($fetchedArray, $selected);
+	
+		}
+
+		echo json_encode($fetchedArray);
+		exit;
+
 	}
 
 }
